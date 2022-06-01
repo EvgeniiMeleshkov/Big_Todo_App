@@ -1,25 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import {TaskType, TodoList} from "./TodoList";
+import {TodoList} from "./TodoList";
 
 function App() {
 
-    let tasks1 = [
-        { id: 1, title: "CSS", isDone: true },
-        { id: 2, title: "Type Script", isDone: true },
-        { id: 3, title: "React", isDone: true }
-    ]
-    let tasks2: Array<TaskType> = [
-        { id: 1, title: "Terminator", isDone: true },
-        { id: 2, title: "XXX", isDone: false },
-        { id: 3, title: "Titanic", isDone: true }
-    ]
+    const [tasks, setTasks] = useState([
+        {id: 1, title: "CSS", isDone: true},
+        {id: 2, title: "Type Script", isDone: true},
+        {id: 3, title: "React", isDone: true},
+        {id: 4, title: "Redux", isDone: false}
+    ])
 
+    const deleteTasks = (id: number) => {
+        setTasks(tasks.filter(el => el.id !== id))
+    }
 
     return (
         <div className="App">
-            <TodoList title={'What to learn'} tasks={tasks1}/>
-            <TodoList title={'Movies'} tasks={tasks2}/>
+            <TodoList
+                deleteTasks={deleteTasks}
+                title={'What to learn'}
+                tasks={tasks}/>
         </div>
     );
 }
