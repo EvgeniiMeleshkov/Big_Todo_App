@@ -2,6 +2,7 @@ import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import Button from './components/Button/Button';
 import Input from './components/Input/Input';
 
+//----------------------------TYPES ANNOTATION--------------------------
 export type TaskType = {
     id: string,
     title: string,
@@ -14,16 +15,20 @@ type TodoListPropType = {
     deleteTasks: (id: string) => void//equal to {id: number, title: string, isDone: boolean}[]
 }
 export type FilterType = 'All' | 'Completed' | 'Active'
+//==============================================================================================
+
 
 export const TodoList = ({addTask, tasks, deleteTasks, title}: TodoListPropType) => {
 
+//------------------------LOCAL STATE-----------------------
     const [titleValue, setTitleValue] = useState('')
+    const [filter, setFilter] = useState('All')
+//==============================================================================
 
+//-------------------HANDLERS & CALLBACKS------------------------------
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        console.log(e.key)
         e.key === 'Enter' && titleValue.match(/\w/) && onButtonClick()
     }
-
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitleValue(e.currentTarget.value)
     }
@@ -32,12 +37,18 @@ export const TodoList = ({addTask, tasks, deleteTasks, title}: TodoListPropType)
         addTask(titleValue)
         setTitleValue('')
     }
-    const [filter, setFilter] = useState('All')
-
     const changeFilter = (value: FilterType) => {
         setFilter(value)
     }
+    const onDeleteHandler = (taskID: string) => {
+        deleteTasks(taskID)
+    }
+    const onFilterHandler = (filter: FilterType) => {
+        changeFilter(filter)
+    }
+//=========================================================================
 
+//---------------FILTER & MAP----------------------------------------------
     let filteredTasks = tasks
 
     filter === 'Active'
@@ -46,9 +57,7 @@ export const TodoList = ({addTask, tasks, deleteTasks, title}: TodoListPropType)
         ? filteredTasks = tasks.filter(el=>el.isDone === true)
         : filteredTasks = tasks
 
-    const onDeleteHandler = (taskID: string) => {
-        deleteTasks(taskID)
-    }
+
     const todoBody = filteredTasks.map((t:TaskType, index: number) => {
         return (<li key={index}><input
             key={t.id}
@@ -58,9 +67,8 @@ export const TodoList = ({addTask, tasks, deleteTasks, title}: TodoListPropType)
             <Button callBack={()=>onDeleteHandler(t.id)} name={'X'}/>
         </li>)
     })
-    const onFilterHandler = (filter: FilterType) => {
-        changeFilter(filter)
-    }
+//=========================================================================
+//--------------------------JSX--------------------------------------------
     return (
         <div>
             <h3>{title}</h3>
