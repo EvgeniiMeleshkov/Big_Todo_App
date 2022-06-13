@@ -1,0 +1,15 @@
+.error {
+    border: crimson 1px solid;
+}
+
+.errorMessage {
+    color: crimson;
+}
+
+.activeFilter {
+    background-color: darkolivegreen;
+}
+
+.isDone {
+    opacity: 0.5;
+}
