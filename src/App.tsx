@@ -23,10 +23,12 @@ function App() {
 
     //BLL:
     const todolistID_1 = v1()
-    const todoLostID_2 = v1()
+    const todoListID_2 = v1()
+    const todoListID_3 = v1()
+
     const [todoLists, setTodoLists] = useState<Array<TodoListType>>([
         {id: todolistID_1, title: 'What to learn', filter: 'all'},
-        {id: todoLostID_2, title: 'What to buy', filter: 'all'}
+        {id: todoListID_2, title: 'What to buy', filter: 'all'},
     ])
     const [tasks, setTasks] = useState<TaskStateType>({
         [todolistID_1]: [
@@ -34,7 +36,7 @@ function App() {
             {id: v1(), title: 'JS/TS', isDone: true},
             {id: v1(), title: 'React', isDone: false},
         ],
-        [todoLostID_2]: [
+        [todoListID_2]: [
             {id: v1(), title: 'milk', isDone: true},
             {id: v1(), title: 'bread', isDone: true},
             {id: v1(), title: 'cream', isDone: false},
@@ -68,7 +70,11 @@ function App() {
         delete tasks[todoListID]
     }
 
-
+    const addTodo = () => {
+        const newtodo: TodoListType = {id: todoListID_3, title: 'new title', filter: 'all'};
+        setTodoLists([newtodo, ...todoLists]);
+        setTasks({...tasks, [todoListID_3]: []})
+    }
     //UI:
     const mappedTodoLists = todoLists.map(el => {
         let tasksForRender;
@@ -100,6 +106,7 @@ function App() {
 
     return (
         <div className="App">
+            <div onClick={addTodo}>new ToDo</div>
             {mappedTodoLists}
         </div>
     );
